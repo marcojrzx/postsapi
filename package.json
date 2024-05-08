@@ -1,0 +1,15 @@
+{
+  "name": "postsapi",
+  "version": "1.0.0",
+  "description": "posts API Marco Ramon test backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@akanass/rx-http-request": "^3.3.0",
+    "express": "^4.19.2"
+  }
+}
