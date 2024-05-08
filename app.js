@@ -25,7 +25,7 @@ const port = 3000
         let final = [];
        pp.forEach(data => {
             final.push(RxHR.get(`https://jsonplaceholder.typicode.com/users/${data.userId}`))
-            comments.push(RxHR.get(`https://jsoanplaceholder.typicode.com/posts/${data.id}/comments`))
+            comments.push(RxHR.get(`https://jsonplaceholder.typicode.com/posts/${data.id}/comments`))
         })
         forkJoin(final).subscribe(autores => { 
             forkJoin(comments).subscribe(comentarios => {
