@@ -1,6 +1,6 @@
 
-const {tap,map, mergeMap}  = require('rxjs/operators');
-const {from, forkJoin}  = require('rxjs');
+const {tap,map, mergeMap, catchError, }  = require('rxjs/operators');
+const {from, forkJoin, of}  = require('rxjs');
 const {RxHR} = require ("@akanass/rx-http-request");
 var https = require('https');
 const express = require('express')
@@ -13,7 +13,7 @@ const port = 3000
       RxHR.get('https://jsonplaceholder.typicode.com/posts')
       .pipe(
         map(datos => datos.body),
-        map(datos => JSON.parse(datos) ),
+        map(datos => JSON.parse(datos) )
       )
       .subscribe(async (datos1) => {
         let start = req.query.start;
@@ -23,9 +23,9 @@ const port = 3000
         let authors = [];
         let comments = [];
         let final = [];
-        pp.forEach(data => {
+       pp.forEach(data => {
             final.push(RxHR.get(`https://jsonplaceholder.typicode.com/users/${data.userId}`))
-            comments.push(RxHR.get(`https://jsonplaceholder.typicode.com/posts/${data.id}/comments`))
+            comments.push(RxHR.get(`https://jsoanplaceholder.typicode.com/posts/${data.id}/comments`))
         })
         forkJoin(final).subscribe(autores => { 
             forkJoin(comments).subscribe(comentarios => {
@@ -47,10 +47,12 @@ const port = 3000
                     p.autor =  authors.find(autor => p.userId == autor.id)
                  })
                 res.send(pp);
-            })
-        })
-       
-        })
+            },
+            (error) => {console.log("error >> ",error); res.send(error);})
+        }, 
+        (error) => {console.log("error >> ",error); res.send(error);}  )
+        },
+        err => {console.log(err); res.send(err);} )
     })
   
 
